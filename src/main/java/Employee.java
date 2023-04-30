@@ -1,16 +1,30 @@
+import javax.persistence.*;
+import lombok.*;
+
+
+
+@Entity
+@Table(name = "employee")
 public class Employee {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "id")
     private int id;
+    @Column(name = "first_name")
     private String firstName;
+    @Column(name = "last_name")
     private String lastName;
+    @Column(name = "gender")
     private String gender;
+    @Column(name = "age")
     private int age;
+    @Column(name = "city_id")
     private int cityId;
 
     public Employee() {
     }
 
-    public Employee(int id, String firstName, String lastName, String gender, int age, int cityId) {
-        this.id = id;
+    public Employee(String firstName, String lastName, String gender, int age, int cityId) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
@@ -68,7 +82,7 @@ public class Employee {
 
     @Override
     public String toString() {
-        return "Employee{" +
+        return "\nEmployee{" +
                 "id=" + id +
                 ", first_name='" + firstName + '\'' +
                 ", last_name='" + lastName + '\'' +

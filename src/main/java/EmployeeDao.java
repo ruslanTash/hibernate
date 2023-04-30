@@ -12,8 +12,8 @@ public interface EmployeeDao {
     List<Employee> getAllEmployees();
 
     //    Изменение конкретного объекта Employee в базе по id.
-    void updateEmployee(int id);
+    void updateEmployee(Employee employee, int id);
 
     //    Удаление конкретного объекта Employee из базы по id.
-    void deleteEmployee(int id) throws SQLException;
+    void deleteEmployee(int id);
 }
