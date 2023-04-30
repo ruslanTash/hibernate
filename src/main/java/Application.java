@@ -7,22 +7,22 @@ import javax.persistence.Persistence;
 
 
 public class Application {
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args){
 
         EmployeeDao employeeDao = new EmployeeDaoImpl();
+        CityDao cityDao = new CityDaoImpl();
 
-        Employee employee1 = new Employee("Bat", "Man", "man", 33, 1);
-        Employee employee2 = new Employee("Bat", "Girl", "woman", 25, 2);
+        City gotham = new City(8, "Gotham");
+        Employee employee1 = new Employee("Bat", "Man", "man", 33, gotham);
+        Employee employee2 = new Employee("Bat", "Girl", "woman", 25, gotham);
 
-        System.out.println(employeeDao.getAllEmployees());
+        cityDao.add(gotham);
+        System.out.println("City contains: " + cityDao.getAllCity().contains(gotham));
 
-        employeeDao.createEmployee(employee1);
-        System.out.println(employeeDao.getEmployeeById(1));
-        employeeDao.updateEmployee(employee2, 5);
-        employeeDao.deleteEmployee(7);
+        gotham.setEmployees(List.of(employee1, employee2));
 
-        System.out.println(employeeDao.getAllEmployees());
-
+        System.out.println("Все сотрудники сохранены: " + employeeDao.getAllEmployees().containsAll(gotham.getEmployees()));
+        cityDao.getById(gotham.getCityId());
 
     }
 }

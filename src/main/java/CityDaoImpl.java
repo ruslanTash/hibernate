@@ -1,16 +1,12 @@
-import org.hibernate.Session;
-
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.List;
-import java.util.Scanner;
+import java.util.stream.Collectors;
 
-public class EmployeeDaoImpl implements EmployeeDao {
+public class CityDaoImpl implements  CityDao{
 
     static Connection getConnection() throws SQLException {
         final String user = "postgres";
@@ -19,52 +15,50 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
         return DriverManager.getConnection(url, user, password);
     }
-
-
     @Override
-    public void createEmployee(Employee employee) {
+    public City add(City city) {
         EntityManager entityManager = HibernateUtil.getEntityManager();
-        entityManager.persist(employee);
+        entityManager.persist(city);
         entityManager.getTransaction().commit();
         entityManager.close();
+        return city;
     }
 
     @Override
-    public Employee getEmployeeById(int id) {
+    public City getById(int cityId) {
         EntityManager entityManager = HibernateUtil.getEntityManager();
-        Employee employee = entityManager.find(Employee.class, id);
+        City city = entityManager.find(City.class, cityId);
         entityManager.getTransaction().commit();
         entityManager.close();
-        return employee;
+        return city;
     }
 
     @Override
-    public List<Employee> getAllEmployees() {
+    public List<City> getAllCity() {
         EntityManager entityManager = HibernateUtil.getEntityManager();
-        String s = "SELECT e FROM Employee e";
-        TypedQuery<Employee> query = entityManager.createQuery(s, Employee.class);
-        List<Employee> employees = query.getResultList();
+        String sql = "SELECT e FROM City e";
+        TypedQuery<City> query = entityManager.createQuery(sql, City.class);
+        List<City> cities = query.getResultList();
         entityManager.getTransaction().commit();
         entityManager.close();
-        return employees;
+        return cities;
     }
 
     @Override
-    public void updateEmployee(Employee employee, int id) {
+    public City updateCity(City city, int cityId) {
         EntityManager entityManager = HibernateUtil.getEntityManager();
-        employee.setId(id);
-        entityManager.merge(employee);
+        city.setCityId(cityId);
+        entityManager.merge(city);
         entityManager.getTransaction().commit();
         entityManager.close();
+        return city;
     }
 
     @Override
-    public void deleteEmployee(int id) {
+    public void deleteCity(int cityId) {
         EntityManager entityManager = HibernateUtil.getEntityManager();
-        entityManager.remove(entityManager.find(Employee.class, id));
+        entityManager.remove(entityManager.find(City.class, cityId));
         entityManager.getTransaction().commit();
         entityManager.close();
     }
-
-
 }
